@@ -32,6 +32,9 @@ shadowsocks.json
     "fast_open": false  
 }
 ```
+#tcpdump
+save data to file, then open the file using wireshark  
+\#tcpdump -i any -s 0 -w file.pcap
 #date
 \#date "+%Y.%m.%d %H:%M:%S" --date="+12 hour"
 #apache
