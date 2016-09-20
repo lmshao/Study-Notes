@@ -37,7 +37,7 @@ save data to file, then open the file using wireshark
 \#tcpdump -i any -s 0 -w file.pcap
 #kcptun
 forwarding port:6666, service port:4000  
-\#./kcptun_server -t "127.0.0.1:6666" -l ":4000" -mode fast2
+\#./kcptun_server -t "127.0.0.1:6666" -l ":4000" -mode fast2  
 client local port:8388, server ip:vps  
 \#./kcptun_client -r "vps:4000" -l ":8388" -mode fast2
 #date
