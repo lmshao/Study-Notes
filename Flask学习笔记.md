@@ -213,7 +213,73 @@ Jinja2 还支持宏。宏类似于 Python 代码中的函数：
 (venv) $ pip install flask-bootstrap
 ```
 
+修改hello.py代码加入 Flask-Bootstrap   
+``` git checkout 3b```
+
+```py
+from flask import Flask, render_template
+from flask_script import Manager
+from flask_bootstrap import Bootstrap
+
+app = Flask(__name__)
+
+manager = Manager(app)
+bootstrap = Bootstrap(app)
 
 
+@app.route('/')
+def index():
+    return render_template('index.html')
 
 
+@app.route('/user/<name>')
+def user(name):
+    return render_template('user.html', name=name)
+
+
+if __name__ == '__main__':
+    manager.run()
+```
+
+修改templates/user.html：使用 Flask-Bootstrap 的模板   
+
+```html
+{% extends "bootstrap/base.html" %}
+{% block title %}Flasky{% endblock %}
+{% block navbar %}
+<div class="navbar navbar-inverse" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="/">Flasky</a>
+		</div>
+		<div class="navbar-collapse collapse">
+			<ul class="nav navbar-nav">
+				<li><a href="/">Home</a></li>
+			</ul>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+	<div class="page-header">
+		<h1>Hello, {{ name }}!</h1>
+	</div>
+</div>
+{% endblock %}
+```
+
+此时浏览器访问 ip:5000/user/name  会出现user页面。
+
+##3.3 链接
+
+##3.4 静态文件
+
+##3.5 使用Flask-Moment本地化日期和时间
