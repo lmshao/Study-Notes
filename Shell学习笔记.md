@@ -128,5 +128,60 @@ $
 $ sed -i '/abc/d' file.txt	#删除abc所在的行
 ```
 
+##2.5 sort
+
+##2.6 awk
 
 #3 Shell语法
+
+##3.1 if
+
+语句格式  
+
+```sh
+if Condition
+then
+	Command
+elif Condition2
+	Command
+else
+	Command
+fi
+```
+
+条件表达式  
+
+```sh
+if [-f file]	#文件存在
+if [-d doc]		#目录存在
+if [-r file]	#可读
+if [-w file]	#可写
+if [-x file]	#可执行
+
+#数值比较
+if [int1 -eq int2]	#int1 == int2
+if [int1 -ne int2]	#int1 != int2
+if [int1 -ge int2]	#int1 >= int2
+if [int1 -gt int2]	#int1 >  int2
+if [int1 -le int2]	#int1 <= int2
+if [int1 -lt int2]	#int1 <  int2
+
+#字符串比较
+if [$str1 = $str2]	#str1 == str2
+if [$str1 != $str2]	#str1 != str2
+if [-n $str]		#str非空
+if [-z $str]		#str为空
+if [$str]			#str非空
+
+#逻辑表达式
+[! expression]		#取反
+[ex1 -a ex2]		#与
+[ex1] && [ex2]		#与
+[ex1 -o ex2]		#或
+[ex1] || [ex2] 		#或
+```
+
+
+##3.2 for
+
+##3.3 while
