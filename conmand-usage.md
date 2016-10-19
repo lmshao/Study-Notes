@@ -88,3 +88,6 @@ Ctrl+Z
 \#bg 1  
 \#jobs  
 \#fg 1  
+
+#nfs
+\# mount -t nfs -o nolock 192.168.1.100:/nfs /home
