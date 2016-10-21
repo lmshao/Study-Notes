@@ -82,7 +82,7 @@ main: main.o aa.o bb.o
 	gcc -c $< 
 ```
 
-##2.2 wildcard
+##2.2 wildcard patsubst
 
 在变量的定义和函数引用时，通配符将失效。这种情况下如果需要通配符有效，就需要使用函数“wildcard”  
 
@@ -93,3 +93,29 @@ OBJ := $(patsubst %.c,%.o,$(SRC) )	#把SRC后缀.c替换为.o
 OBJ := $(SRC:%.c=%.o)				#把SRC后缀.c替换为.o
 
 ```
+
+##2.3 = ：= ？= +=
+
+- =&emsp;&emsp;是最基本的赋值
+- :=&emsp;&emsp;是覆盖之前的值
+- ?=&emsp;&emsp;是如果没有被赋值过就赋予等号后面的值
+- +=&emsp;&emsp;是添加等号后面的值
+
+示例
+```makefile
+x = abc
+y = ur$(x)
+x = xyz
+```
+最后结果：x为xyz，y为urxyz.
+
+```make
+x := abc
+y := ur$(x)
+x := xyz
+```
+最后结果：x为xyz，y为urabc.  
+  
+= 搜索到最后再赋值  
+:=  当前位置直接赋值  
+
