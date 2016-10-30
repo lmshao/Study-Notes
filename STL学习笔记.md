@@ -228,3 +228,40 @@ for(riter = vec.rbegin();riter!=vec.rend();riter++)
 其它特点与map相同。
 
 #3. 算法 Algorithm
+```#include <algorithm>```
+###reverse
+反转数组
+```cpp
+vector<int> v({1,2,3});
+reverse(v.begin(), v.end());
+
+int a[] = {4, 5, 6, 7};
+reverse(&a[0], &a[4]);
+```
+
+###count
+统计数组符合条件的数据个数
+```cpp
+int data[] = { 1, 2, 3, 4, 4, 3, 7, 8, 9, 10 };
+vector<int> v(data, data+10);
+count(v.begin(), v.end(), 3);		//统计3的个数
+```
+
+###find
+查找符合条件的元素的位置
+```cpp
+vector<int> v = {1,2,3};
+//返回第一个n的迭代器，找不到就返回v.end()
+vector<int>::iterator it = find(v.begin(), v.end(), n);
+```
+
+###copy
+复制一个向量数据到另一个
+```cpp
+vector<int> from_vector = {6,6,6};
+vector<int> to_vector(3);
+copy(from_vector.begin(), from_vector.end(), to_vector.begin());
+//to_vector = {6,6,6}
+```
+
+
