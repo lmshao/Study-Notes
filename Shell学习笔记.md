@@ -152,11 +152,11 @@ fi
 条件表达式  
 
 ```sh
-if [-f file]	#文件存在
-if [-d doc]		#目录存在
-if [-r file]	#可读
-if [-w file]	#可写
-if [-x file]	#可执行
+if [ -f file ]	#文件存在
+if [ -d doc ]		#目录存在
+if [ -r file ]	#可读
+if [ -w file ]	#可写
+if [ -x file ]	#可执行
 
 #数值比较
 if [int1 -eq int2]	#int1 == int2
