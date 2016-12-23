@@ -119,3 +119,40 @@ x := xyz
 = 搜索到最后再赋值  
 :=  当前位置直接赋值  
 
+
+## 3 示例
+
+有文件：main.cpp RTSP.h RTSP.cpp
+
+```makefile
+Dawn_RTSP_Server:main.o RTSP.o
+	g++ -o $@ $^
+.c.o:
+	g++ -c $<
+    
+clean:
+	rm -f *.o Dawn_RTSP_Server
+```
+
+或者
+
+```makefile
+Dawn_RTSP_Server:main.o RTSP.o
+	g++ -o $@ $^
+%o:%c
+	g++ -c $<
+    
+clean:
+	rm -f *.o Dawn_RTSP_Server
+```
+
+或者   
+```make
+Dawn_RTSP_Server:main.o RTSP.o
+	g++ -o $@ $^
+main.o:main.cpp RTSP.h
+	g++ -c $^
+RTSP.o:RTSP.cpp RTSP.h
+	g++ -c $^
+```
+
