@@ -1,0 +1,142 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <title>Color</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+</head>
+
+<body>
+  <h2 align="center">
+    </br>
+    色相图
+    </br>
+    </br>
+  </h2>
+
+  <p align="center">
+    <canvas id="Circular" width="1000" height="800" style="border:0px solid #c3c3c3;">
+      Your browser does not support the canvas element.
+    </canvas>
+
+    <script>
+      var canvas = document.getElementById("Circular");
+      var context = canvas.getContext('2d');
+      var cx = 500;   // Center of a circle
+      var cy = 400;   // Center of a circle
+      var radius = 350;
+      var cw = 75;    // Character width
+      var ch = 15;    // Character height
+      var deg = Math.PI/8;
+
+      // 1
+      context.fillStyle="#F10D58";
+      context.font="20px Courier";
+      context.fillText("F10D58",cx+50,cy-365);
+      sector(context,cx,cy,radius,12*deg,13*deg);
+      // 2
+      context.fillStyle="#FF330E";
+      context.font="20px Courier";
+      context.fillText("FF330E",cx+200,cy-300);
+      sector(context,cx,cy,radius,13*deg,14*deg);
+      // 3
+      context.fillStyle="#FF6B01";
+      context.font="20px Courier";
+      context.fillText("FF6B01",cx+300,cy-200);
+      sector(context,cx,cy,radius,14*deg,15*deg);
+      // 4
+      context.fillStyle="#FFB200";
+      context.font="20px Courier";
+      context.fillText("FFB200",cx+345,cy-66);
+      sector(context,cx,cy,radius,15*deg,0*deg);
+
+      // 5
+      context.fillStyle="#FFE500";
+      context.font="20px Courier";
+      context.fillText("FFE500",cx+345,cy+66+ch);
+      sector(context,cx,cy,radius,0*deg,1*deg);
+      // 6
+      context.fillStyle="#BFF700";
+      context.font="20px Courier";
+      context.fillText("BFF700",cx+300,cy+200+ch);
+      sector(context,cx,cy,radius,1*deg,2*deg);
+      // 7
+      context.fillStyle="#7FF200";
+      context.font="20px Courier";
+      context.fillText("7FF200",cx+200,cy+300+ch);
+      sector(context,cx,cy,radius,2*deg,3*deg);
+      // 8
+      context.fillStyle="#40F200";
+      context.font="20px Courier";
+      context.fillText("40F200",cx+50,cy+365+ch);
+      sector(context,cx,cy,radius,3*deg,4*deg);
+
+      // 9
+      context.fillStyle="#18F218";
+      context.font="20px Courier";
+      context.fillText("18F218",cx-50-cw,cy+365+ch);
+      sector(context,cx,cy,radius,4*deg,5*deg);
+      // 10
+      context.fillStyle="#04CD65";
+      context.font="20px Courier";
+      context.fillText("04CD65",cx-200-cw,cy+300+ch);
+      sector(context,cx,cy,radius,5*deg,6*deg);
+      // 11
+      context.fillStyle="#00A3A2";
+      context.font="20px Courier";
+      context.fillText("00A3A2",cx-300-cw,cy+200+ch);
+      sector(context,cx,cy,radius,6*deg,7*deg);
+      // 12
+      context.fillStyle="#006AE0";
+      context.font="20px Courier";
+      context.fillText("006AE0",cx-345-cw,cy+66+ch);
+      sector(context,cx,cy,radius,7*deg,8*deg);
+
+      // 13
+      context.fillStyle="#2540FF";
+      context.font="20px Courier";
+      context.fillText("2540FF",cx-345-cw,cy-66);
+      sector(context,cx,cy,radius,8*deg,9*deg);
+      // 14
+      context.fillStyle="#4D25FF";
+      context.font="20px Courier";
+      context.fillText("4D25FF",cx-300-cw,cy-200);
+      sector(context,cx,cy,radius,9*deg,10*deg);
+      // 15
+      context.fillStyle="#7A14F3";
+      context.font="20px Courier";
+      context.fillText("7A14F3",cx-200-cw,cy-300);
+      sector(context,cx,cy,radius,10*deg,11*deg);
+      // 16
+      context.fillStyle="#BE0DBF";
+      context.font="20px Courier";
+      context.fillText("BE0DBF",cx-50-cw,cy-365);
+      sector(context,cx,cy,radius,11*deg,12*deg);
+
+      // The inner circle
+      context.fillStyle="#FFF";
+      sector(context,cx,cy,radius/2,0*deg,16*deg);
+      context.fillStyle="#000";
+      context.font="20px Courier";
+      context.fillText("+",cx-ch/2,cy+ch/2);
+
+      function sector(ctx,x, y, radius, sDeg, eDeg) {
+        ctx.save();
+        ctx.translate(x, y);
+        ctx.beginPath();
+        ctx.arc(0,0,radius,sDeg, eDeg);
+        ctx.save();
+        ctx.rotate(eDeg);
+        ctx.moveTo(radius,0);
+        ctx.lineTo(0,0);
+        ctx.restore();
+        ctx.rotate(sDeg);
+        ctx.lineTo(radius,0);
+        ctx.closePath();
+        ctx.restore();
+        ctx.fill();
+      }
+    </script>
+  </p>
+</body>
+</html>

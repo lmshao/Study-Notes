@@ -12,6 +12,103 @@
 
 >AVIOContext，URLProtocol，URLContext主要存储视音频使用的协议的类型以及状态。URLProtocol存储输入视音频使用的封装格式。每种协议都对应一个URLProtocol结构。（注意：FFMPEG中文件也被当做一种协议“file”）   
 
+#### 1.1.1 AVIOContext
+`libavformat/avio.h`   
+部分成员   
+```c
+typedef struct AVIOContext {
+    /* 私有选项的类 */
+    const AVClass *av_class;
+
+    /*
+     * 下图展示 buffer, buf_ptr, buf_end, buf_size, pos 之间的关系, 
+     * when reading and when writing (since AVIOContext is used for both):
+     *
+     **********************************************************************************
+     *                                   READING
+     **********************************************************************************
+     *
+     *                            |              buffer_size              |
+     *                            |---------------------------------------|
+     *                            |                                       |
+     *
+     *                         buffer          buf_ptr       buf_end
+     *                            +---------------+-----------------------+
+     *                            |/ / / / / / / /|/ / / / / / /|         |
+     *  read buffer:              |/ / consumed / | to be read /|         |
+     *                            |/ / / / / / / /|/ / / / / / /|         |
+     *                            +---------------+-----------------------+
+     *
+     *                                                         pos
+     *              +-------------------------------------------+-----------------+
+     *  input file: |                                           |                 |
+     *              +-------------------------------------------+-----------------+
+     *
+     *
+     **********************************************************************************
+     *                                   WRITING
+     **********************************************************************************
+     *
+     *                                          |          buffer_size          |
+     *                                          |-------------------------------|
+     *                                          |                               |
+     *
+     *                                       buffer              buf_ptr     buf_end
+     *                                          +-------------------+-----------+
+     *                                          |/ / / / / / / / / /|           |
+     *  write buffer:                           | / to be flushed / |           |
+     *                                          |/ / / / / / / / / /|           |
+     *                                          +-------------------+-----------+
+     *
+     *                                         pos
+     *               +--------------------------+-----------------------------------+
+     *  output file: |                          |                                   |
+     *               +--------------------------+-----------------------------------+
+     *
+     */
+    unsigned char *buffer;  /* Buffer起点 */
+    int buffer_size;        /* Buffer最大容量 */
+    unsigned char *buf_ptr; /* Buffer中当前位置指针 */
+    unsigned char *buf_end; /* 数据终点位置指针，当读函数返回比请求的数据少的时候，
+                               可能会小于 buffer+buffer_size */
+    void *opaque;           /* 私有指针，用于read/write/seek/...等函数 */
+
+    int (*read_packet)(void *opaque, uint8_t *buf, int buf_size);
+    int (*write_packet)(void *opaque, uint8_t *buf, int buf_size);
+    int64_t (*seek)(void *opaque, int64_t offset, int whence);
+
+    int64_t pos;            /* 当前Buffer的文件中的位置 */
+    int must_flush;         /* 是否需要flush */
+    int eof_reached;        /* 是否遇到EOF */
+    int write_flag;         /* 是否写操作 */
+    int max_packet_size;
+    unsigned long checksum;
+    unsigned char *checksum_ptr;
+
+    unsigned long (*update_checksum)(unsigned long checksum, 
+                    const uint8_t *buf, unsigned int size);
+    int error;              /* 错误代码 */
+    int (*read_pause)(void *opaque, int pause);
+    int64_t (*read_seek)(void *opaque, int stream_index,
+                         int64_t timestamp, int flags);
+    int seekable;
+    int64_t maxsize;
+    int direct;
+    int64_t bytes_read;
+    int seek_count;
+    int writeout_count;
+    int orig_buffer_size;
+    int short_seek_threshold;
+    const char *protocol_whitelist;
+    const char *protocol_blacklist;
+
+    int (*write_data_type)(void *opaque, uint8_t *buf, int buf_size,
+                           enum AVIODataMarkerType type, int64_t time);
+    int ignore_boundary_point;
+    enum AVIODataMarkerType current_type;
+    int64_t last_time;
+} AVIOContext;
+```
 
 ### 1.2 Format
 
@@ -20,7 +117,7 @@
 >AVFormatContext主要存储视音频封装格式中包含的信息；AVInputFormat存储输入视音频使用的封装格式。每种视音频封装格式都对应一个AVInputFormat 结构。
 
 #### 1.2.1 AVFormatContext
-`#include <avformat.h>`
+`#include <avformat.h>`    
 部分成员
 ```c
 typedef struct AVFormatContext {
@@ -453,4 +550,51 @@ qscale_table[0]就是第1行第1列宏块的QP值；qscale_table[2]就是第1行
 
 
 
+#### 1.4.2 AVPacket
 
+`libavcodec/avcodec.h`
+
+```c
+typedef struct AVPacket {
+
+    AVBufferRef *buf;
+
+    int64_t pts;      /* 显示时间戳 */
+    int64_t dts;      /* 解压缩时间戳 */
+    uint8_t *data;
+    int   size;
+    int   stream_index;
+
+    int   flags;
+
+    AVPacketSideData *side_data;
+    int side_data_elems;
+    int64_t duration;
+
+    int64_t pos; 
+} AVPacket;
+```
+
+### 1.5 其他
+#### 1.5.1 ConcatContext
+`avf_concat.c`
+
+```c
+typedef struct {
+     const AVClass *class;           /* 描述AVClass上下文结构的类 */
+     unsigned nb_streams[TYPE_ALL];  /*每种类型的流的数目 */
+     unsigned nb_segments;
+     unsigned cur_idx;               /*当前段的第一个输入的索引 */
+     int64_t delta_ts;
+     unsigned nb_in_active;          /*当前段的活动输入数 */
+     unsigned unsafe;
+     struct concat_in {
+         int64_t pts;
+         int64_t nb_frames;
+         unsigned eof;
+         struct FFBufQueue queue;
+     } *in;
+ } ConcatContext;
+```
+
+## 2. 音视频格式
