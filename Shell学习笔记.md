@@ -132,6 +132,12 @@ $ sed -i '/abc/d' file.txt	#删除abc所在的行
 
 ##2.6 awk
 
+输出以空格分割的第一部分字符，并加上.jpg作为后缀
+
+```sh
+md5sum $file | awk '{print $1".jpg"}'
+```
+
 #3 Shell语法
 
 ##3.1 if

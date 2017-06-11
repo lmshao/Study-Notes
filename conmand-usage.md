@@ -1,16 +1,16 @@
-#Command Usage
+# Command Usage
 
-##ssh
+## ssh
 \#ssh -l usr -p 22 127.0.0.1
 
-##scp
+## scp
 put file  
 \#scp -P 22 ./file usr@127.0.0.1:/home/usr  
   
 get file     
 \#scp -P 22 usr@127.0.0.1:/home/usr/file ./
 
-##Shadowsocks
+## Shadowsocks
 run ss in the background  
 \#ssserver -c /etc/shadowsocks.json -d start  
 or  
@@ -32,21 +32,21 @@ shadowsocks.json
     "fast_open": false  
 }
 ```
-#tcpdump
+# tcpdump
 save data to file, then open the file using wireshark  
 \#tcpdump -i any -s 0 -w file.pcap
-#kcptun
+# kcptun
 forwarding port:6666, service port:4000  
 \#./kcptun_server -t "127.0.0.1:6666" -l ":4000" -mode fast2  
 client local port:8388, server ip:vps  
 \#./kcptun_client -r "vps:4000" -l ":8388" -mode fast2
-#date
+# date
 \#date "+%Y.%m.%d %H:%M:%S" --date="+12 hour"
-#apache
+# apache
 \#service apache2 start  
 \#service apache2 restart  
 \#service apache2 status  
-#rtorrent
+# rtorrent
 start: 		screen torrent  
 back: 		Ctrl+A+D  
 restart:	screen -r  
@@ -54,7 +54,7 @@ restart:	screen -r
 start: Ctrl+s  
 quit: Ctrl+q  
 delete: Ctrl+d	x2 delete  
-#cron 
+# cron 
 create cron script file  
 \#cd  /var/spool/cron/crontabs  
  #vi mycron   
@@ -71,10 +71,10 @@ edit script  file
 
 delete script  file  
  #crontab -r
-#view netspeed
+# view netspeed
 \#install sysstat  
 \#sar -n DEV 1 100
-#nginx
+# nginx
 conf file  
 \#vim /etc/nginx/sites-available/default
 
@@ -83,11 +83,11 @@ start
 
 stop  
 \#nginx -s stop  
-#run in the background
+# run in the background
 Ctrl+Z  
 \#bg 1  
 \#jobs  
 \#fg 1  
 
-#nfs
+# nfs
 \# mount -t nfs -o nolock 192.168.1.100:/nfs /home
