@@ -33,7 +33,7 @@ Enter password: ********
 
 删除数据表
 ```sql
-> drop tbname;
+> drop table tbname;
 ```
 
 删除数据库
@@ -152,6 +152,7 @@ mysql> select col_name1, col_name2 from tbname;
 - offset：记录偏移。
 - 可以使用`*`表示显示全部列。
 - BINARY关键字指定大小写。
+- 使用select distinct 显示不重复记录。
 
 示例：显示所有数据
 ```sql
@@ -338,6 +339,30 @@ mysql> select name from report union all select name from info order by name;
 8 rows in set (0.00 sec)
 ```
 
+## ALTER 修改表数据
+
+示例：把registry表的age类型改为INT
+```sql
+alter table registry modify age INT;
+```
+
+修改表名：
+```sql
+alter table registry rename to info;
+```
+添加列：
+```sql
+alter table 表名 add column 列名 varchar(30);
+```
+删除列：
+```sql
+alter table 表名 drop column 列名;
+```
+修改列名
+```sql
+alter table 表名 change 列名1 列名2 int;
+```
+
 ### 排序
 
 ```sql
@@ -412,4 +437,16 @@ $ mysqldump -u root -p database_name \
 远程数据库导出到本地
 ```sh
 mysqldump -h other-host.com -P port -u root -p database_name > dump.txt
+```
+
+### 用户与权限
+
+创建用户
+```sql
+create user root@'211.157.151.%' identified by '12345678';
+```
+授权访问
+IP为client的IP
+```sql
+grant all on *.* to root@'211.157.151.%' identified by '12345678';
 ```
